@@ -157,13 +157,13 @@ class DictDiff:
 
 		# Iterate through deleted keys
 		for k in a_has:
-			zz = Diff._ShowRow(k, maxkeylen, self.A[k], "", "Deleted", False, autoaccept)
+			zz = DictDiff._ShowRow(k, maxkeylen, self.A[k], "", "Deleted", False, autoaccept)
 			if zz != None:
 				ret.append(zz)
 
 		# Iterate through new keys
 		for k in b_has:
-			zz = Diff._ShowRow(k, maxkeylen, "", self.B[k], "Added", False, autoaccept)
+			zz = DictDiff._ShowRow(k, maxkeylen, "", self.B[k], "Added", False, autoaccept)
 			if zz != None:
 				ret.append(zz)
 

@@ -65,7 +65,7 @@ In this rough example:
 	# Apply changes
 	for row in diff:
 		if row[0] == 'd':
-			database.eeeeeeeqeuweieoeeeereueepeeeeeeeeeeeeexecute("delete from `metadata` where `artist`=? and `key`=?", artist, row[1])
+			database.execute("delete from `metadata` where `artist`=? and `key`=?", artist, row[1])
 		elif row[0] == 'a':
 			database.execute("insert into `metadata` (`artist`,`key`,`value`) values(?,?,?)", artist, row[1], row[2])
 		elif row[0] == 'k':

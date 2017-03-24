@@ -417,3 +417,105 @@ class DictDiff:
 		return ret
 
 
+
+
+
+if __name__ == '__main__':
+	a = {"Alice": 10, "Bob": 20, "Charlie": 30}
+	b = {"Alice": 15, "Bob": 20, "David": 40}
+
+	d = DictDiff(a,b)
+	res = d.AutoDiff("Test 1")
+
+	# Make sure diff is as expected
+	assert type(res) == list
+	assert len(res) == 4
+	assert type(res[0]) == tuple
+	assert type(res[1]) == tuple
+	assert type(res[2]) == tuple
+	assert type(res[3]) == tuple
+	assert len(res[0]) == 3
+	assert len(res[1]) == 3
+	assert len(res[2]) == 3
+	assert len(res[3]) == 3
+	assert res[0][0] == 'd'
+	assert res[0][1] == 'Charlie'
+	assert res[1][0] == 'a'
+	assert res[1][1] == 'David'
+	assert res[1][2] == 40
+	assert res[2][0] == 'e'
+	assert res[2][1] == 'Alice'
+	assert res[2][2] == 15
+	assert res[3][0] == 'k'
+	assert res[3][1] == 'Bob'
+	assert res[3][2] == 20
+
+	# Make sure result is as expected
+	c = d.ApplyDiff(a, res)
+	assert type(c) == dict
+	assert len(c) == 3
+	assert 'Alice' in c
+	assert c['Alice'] == 15
+	assert 'Bob' in c
+	assert c['Bob'] == 20
+	assert 'David' in c
+	assert c['David'] == 40
+
+	# Make sure original is unchanged
+	assert len(a) == 3
+	assert 'Charlie' in a
+	assert 'David' not in a
+
+
+
+	try:
+		d.ApplyDiff(a, res, allowDelete=False)
+		assert False, "Should not have been permitted"
+	except:
+		pass
+
+	try:
+		d.ApplyDiff(a, res, allowDelete=True)
+	except:
+		assert False, "Should have been permitted"
+
+
+
+	try:
+		d.ApplyDiff(a, res, allowAdd=False)
+		assert False, "Should not have been permitted"
+	except:
+		pass
+
+	try:
+		d.ApplyDiff(a, res, allowAdd=True)
+	except:
+		assert False, "Should have been permitted"
+
+
+
+	try:
+		d.ApplyDiff(a, res, allowChange=False)
+		assert False, "Should not have been permitted"
+	except:
+		pass
+
+	try:
+		d.ApplyDiff(a, res, allowChange=True)
+	except:
+		assert False, "Should have been permitted"
+
+
+
+	try:
+		d.ApplyDiff(a, res, allowKeep=False)
+		assert False, "Should not have been permitted"
+	except:
+		pass
+
+	try:
+		d.ApplyDiff(a, res, allowKeep=True)
+	except:
+		assert False, "Should have been permitted"
+
+

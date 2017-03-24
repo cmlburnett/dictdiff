@@ -18,6 +18,8 @@ There are plenty of enhancements that could be done;
 
 __all__ = ['DictDiff']
 
+import textwrap
+
 class DictDiff:
 	"""
 	Class that handles diff'ing the contents of two dictionaries.
@@ -172,7 +174,7 @@ class DictDiff:
 			else:
 				status = 'Different'
 
-			zz = Diff._ShowRow(k, maxkeylen, self.A[k], self.B[k], status, False, autoaccept)
+			zz = DictDiff._ShowRow(k, maxkeylen, self.A[k], self.B[k], status, False, autoaccept)
 			if zz != None:
 				ret.append(zz)
 

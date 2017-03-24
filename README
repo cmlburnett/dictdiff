@@ -14,4 +14,65 @@ There are plenty of enhancements that could be done;
  - No type conversions performed on new data
  - Values are assumed to be simple types (int, str, etc.); no nesting supported
 
+---------
+:Install:
+---------
+
+	python3 setup.py install
+
+---------------
+:Documentation:
+---------------
+
+Use Python's online help to get the documentation from the classes.
+
+	>>> import dictdiff
+	>>> help(dictdiff)
+	NAME
+		dictdiff - DictDiff -- an interactive dictionary diff class.
+
+	DESCRIPTION
+		Simple class that performs a diff on two dictionaries.
+		The end result of the diff is a set of instructions neded to be performed to change the dictionaries.
+		While this may seem excessive, the point is to use the instructions to modify a database.
+	.................
+
+
+-------
+:Usage:
+-------
+
+This class is intended to be a helper class to handle the logic of updating dictionaries as representations of other entities.
+In this rough example:
+1) a dictionary of metadata is read for a music artist,
+2) metadata is then pulled from some source on the internet,
+3) diff is performed interactively with user, and
+4) changes are applied to the database
+
+	import dictdiff
+
+	# Get metadata
+	artist = "Michael Jackson"
+	a = ReadMetadata(artist) // Read metadata from the database as a dictionary
+	b = FetchMetadata(artist) // Read metadata from the internets
+
+	# Initialize diff
+	d = DictDiff(a,b)
+
+	# Do interactive diff
+	diff = d.ShowDiff("Update metadata for artist '%s'" % artist)
+
+	# Apply changes
+	for row in diff:
+		if row[0] == 'd':
+			database.eeeeeeeqeuweieoeeeereueepeeeeeeeeeeeeexecute("delete from `metadata` where `artist`=? and `key`=?", artist, row[1])
+		elif row[0] == 'a':
+			database.execute("insert into `metadata` (`artist`,`key`,`value`) values(?,?,?)", artist, row[1], row[2])
+		elif row[0] == 'k':
+			pass
+		elif row[1] == 'c':
+			database.execute("update `metadata` set `value`=? where `artist`=? and `key`=?", row[2], artist, row[1])
+		else:
+			raise NotImplementedError
+
 

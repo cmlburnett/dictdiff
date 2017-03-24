@@ -1,0 +1,17 @@
+DictDiff -- an interactive dictionary diff class.
+
+Simple class that performs a diff on two dictionaries.
+The end result of the diff is a set of instructions neded to be performed to change the dictionaries.
+While this may seem excessive, the point is to use the instructions to modify a database.
+For example, if two sets of key/value metadata represented as a dictionary were diff'ed
+ then this would provide the instructions that could be then performed in a database
+ setting to delete, insert, or update rows in the database.
+Additionally, the diff is performed in an intereactive manner to permit the user to
+ selectively approve or tweak the diff as it is being performed.
+
+There are plenty of enhancements that could be done;
+ - Cannot add new keys that are not in the provided dictionaries
+ - No type conversions performed on new data
+ - Values are assumed to be simple types (int, str, etc.); no nesting supported
+
+
